@@ -1,0 +1,4 @@
+- CLI Todo List
+Start in Python.
+Afterwards: C, C++, Go, Rust, Zig
+Example: https://www.youtube.com/watch?v=7OPLE0cF8JU
