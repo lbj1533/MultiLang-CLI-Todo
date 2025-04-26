@@ -9,18 +9,17 @@ class Task:
       self.due_date = self.parse_date(due_date)
 
    def __str__(self):
-      if self.due_date:
-            due_date_str = f" due {self.due_date}"
-      else:
-            due_date_str = ""
+      due_date_str = f" due {self.due_date}"
       if self.description:
-            description_str = f"\n\t{self.description}"
+            description_str = f"\n    {self.description}"
       else:
             description_str = ""
       return f"- {self.name}{due_date_str}{description_str}\n"
    
    def __len__(self):
-      return len(str(self.name)) + len(str(self.description)) + len(str(self.due_date))
+      return max( \
+                  len(str(self.name)) + len(str(self.due_date)) + len("- ") + len(" due "), \
+                  len("    ") + len(str(self.description))) 
 
    def parse_date(self, due_date):
       if not(due_date):
@@ -62,14 +61,11 @@ class List:
       terminal_width_line = "=" * num_cols
       top_bar = "=" * ((num_cols//2) - 3) + "|TODO|" + "=" * ((num_cols//2) - 3)
       if len(self.tasks) == 0:
-         return_string = f"{top_bar}\nThere are no items in the list.\n{terminal_width_line}\n"
+         return_string = f"\n{top_bar}\nThere are no items in the list.\n{terminal_width_line}"
          return return_string
-      # important: the following line only works if "Todo" is the first line added to return_string
-      # return_string += "TODO"
-      # return_string += "-" * (len(top_bar) - len(return_string))
       for task in self.tasks:
          return_string += str(task)
-      return top_bar + "\n" + return_string + terminal_width_line + "\n"
+      return "\n" + top_bar + "\n" + return_string + terminal_width_line
 
    def add_task(self, task):
       self.tasks.append(task)
