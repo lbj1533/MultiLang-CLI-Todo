@@ -2,3 +2,18 @@
 Start in Python.
 Afterwards: C, C++, Go, Rust, Zig
 Example: https://www.youtube.com/watch?v=7OPLE0cF8JU
+
+What does todo list need to have?
+- make tasks
+- delete tasks
+- see tasks
+- sort by date
+- date parsing
+- remove view, auto view on edit
+- search for task (to delete)
+- delete item
+
+to do:
+- fix oversight: date is no longer required, what happens if you delete proj3 if 2 * (proj3, None, None)??
+- add exit
+- add saving to files
