@@ -4,9 +4,13 @@ from input_handling import *
 
 def main():
    list = List()
-   apply_debug_list_init(list)
+   save_file = "saved_list_py.txt"
+   open_save(save_file, list)
+   #apply_debug_list_init(list)
    while True:
+      save_to_file(save_file, list)
       input_handling(list)
+      
         
 
 

@@ -1,4 +1,5 @@
 from datetime import date, MINYEAR
+import math
 
 
 # define a task
@@ -24,9 +25,15 @@ class Task:
    def parse_date(self, due_date):
       if not(due_date):
          return None
-      # format is assumed to be MM/DD
-      due_date = due_date.split("/")
-      due_date = date(date.today().year, int(due_date[0]), int(due_date[1]))
+      elif "/" in due_date:
+         due_date = due_date.split("/")
+         due_date = date(date.today().year, int(due_date[0]), int(due_date[1]))
+      elif "-" in due_date:
+         due_date = due_date.split("-")
+         due_date = date(int(due_date[0]), int(due_date[1]), int(due_date[2]))
+      else:
+         print("Malformatted Date. Either supply MM/DD or YYYY-MM-DD.")
+         return None
       return due_date
 
     # tests for equality, only considers date and name
@@ -51,15 +58,17 @@ class List:
       self.tasks = []
 
    def __len__(self):
-      self.get_info("width")
-             
+      if len(self.tasks) > 0:
+         return self.get_info("width")
+      else:
+         return len("There are no items in the list.")
           
 
    def __str__(self) -> str:
       return_string = ""
-      num_cols = List.get_info(self, "width")
+      num_cols = len(self)
       terminal_width_line = "=" * num_cols
-      top_bar = "=" * ((num_cols//2) - 3) + "|TODO|" + "=" * ((num_cols//2) - 3)
+      top_bar = "=" * (math.floor(num_cols/2) - 3) + "|TODO|" + "=" * (math.ceil(num_cols/2) - 3)
       if len(self.tasks) == 0:
          return_string = f"\n{top_bar}\nThere are no items in the list.\n{terminal_width_line}"
          return return_string
@@ -71,7 +80,8 @@ class List:
       self.tasks.append(task)
 
    def remove_task_at_index(self, index):
-      self.tasks.pop(index)
+      if index != None:
+         self.tasks.pop(index)
 
    def sort(self):
       def by_date(task):

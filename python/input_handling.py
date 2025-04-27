@@ -41,13 +41,13 @@ def input_task_to_remove(list):
       for i, obj in enumerate(list.tasks):
          if obj.name == name:
             return i
-      raise ValueError(f"{name} not found")
+      print(f"{name} not found")
    
    def index_by_date(list, date):
       for i, obj in enumerate(list.tasks):
          if obj.due_date == date:
             return i
-      raise ValueError(f"{date} not found")
+      print(f"{date} not found")
 
    prompt = "Enter the name of the task:\n"
    name = input(prompt)
@@ -59,9 +59,18 @@ def input_task_to_remove(list):
    
    #if multiple items with same name:
    prompt = "Enter the date of the task(MM/DD):\n"
-   due_date = input(prompt).split("/")
+   due_date = input(prompt)
+   if "/" not in due_date:
+      print("Tasks need a name and a date.")
+      return None
+   due_date = due_date.split("/")
    due_date = date(date.today().year, int(due_date[0]), int(due_date[1]))
-   return index_by_date(list, due_date)
+   index = index_by_date(list, due_date)
+   if index:
+      return index
+   else:
+      print("No such task exists.\n")
+      return None
 
 def parse_input(key_pressed, list):
    key_pressed = key_pressed.lower()
@@ -69,8 +78,9 @@ def parse_input(key_pressed, list):
       task = None
       while not(task):
          task = input_new_task()
-         if task == None:
+         if task == None or type(task.due_date) != date:
             print("A task must include a name and a date.")
+            return
       list.add_task(task)
       list.sort()
    elif key_pressed == "d":
@@ -78,3 +88,16 @@ def parse_input(key_pressed, list):
       list.remove_task_at_index(task)
       list.sort()
 
+def save_to_file(filename, list):
+   with open(filename, 'w') as file:
+      for task in list.tasks:
+         file.write(f"{task.name}|{task.due_date}|{task.description}\n")
+
+def open_save(filename, list):
+   try:
+      with open(filename, 'r') as file:
+         for line in file:
+            arg_list = line.strip().split("|")
+            list.add_task(Task(arg_list[0],arg_list[2], arg_list[1]))
+   except FileNotFoundError:
+      print("No save found. Creating new list.\n")
