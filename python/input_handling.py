@@ -95,13 +95,13 @@ def parse_input(key_pressed, list):
       quit(0)
 
 def save_to_file(filename, list):
-   with open(filename, 'w') as file:
+   with open(f"./python/{filename}", 'w') as file:
       for task in list.tasks:
          file.write(f"{task.name}|{task.due_date}|{task.description}\n")
 
 def open_save(filename, list):
    try:
-      with open(filename, 'r') as file:
+      with open(f"./python/{filename}", 'r') as file:
          for line in file:
             arg_list = line.strip().split("|")
             list.add_task(Task(arg_list[0],arg_list[2], arg_list[1]))
