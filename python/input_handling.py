@@ -21,7 +21,7 @@ def log(log, level, message):
    
 
 def get_input():
-   prompt = "[A] to Add Task\n[D] to Delete Task\n"
+   prompt = "[A] to Add Task\n[D] to Delete Task\n[E] to Exit\n"
    return input(prompt)
 
 def input_new_task() -> None|Task:
@@ -64,12 +64,16 @@ def input_task_to_remove(list):
       print("Tasks need a name and a date.")
       return None
    due_date = due_date.split("/")
-   due_date = date(date.today().year, int(due_date[0]), int(due_date[1]))
+   try:
+      due_date = date(date.today().year, int(due_date[0]), int(due_date[1]))
+   except ValueError:
+      print("Malformatted Date.")
+      return None
    index = index_by_date(list, due_date)
    if index:
       return index
    else:
-      print("No such task exists.\n")
+      print("No such task exists.")
       return None
 
 def parse_input(key_pressed, list):
@@ -87,6 +91,8 @@ def parse_input(key_pressed, list):
       task = input_task_to_remove(list)
       list.remove_task_at_index(task)
       list.sort()
+   elif key_pressed == "e":
+      quit(0)
 
 def save_to_file(filename, list):
    with open(filename, 'w') as file:
