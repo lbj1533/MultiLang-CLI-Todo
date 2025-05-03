@@ -9,11 +9,8 @@ What does todo list need to have?
 - see tasks
 - sort by date
 - date parsing
-- remove view, auto view on edit
+- auto view on edit
 - search for task (to delete)
 - delete item
-
-to do:
-- fix oversight: date is no longer required, what happens if you delete proj3 if 2 * (proj3, None, None)??
 - add exit
 - add saving to files
