@@ -2,9 +2,16 @@
 #include "utils.h"
 
 int main(void){
-   todo_message("implement creating list");
-   todo_message("implement adding items to list");
-   printf("Hello\n");
+   struct List list = {NULL, NULL};
+   struct Task task1 = {
+      .name = "task1",
+      .dueDate = "4/20",
+      .description = "bruh uhhhh",
+      .nextTask = NULL
+   };
+   addTask(&list, &task1);
+   printList(&list);
+   todoMessage("implement input");
    return 0;
 }
 
